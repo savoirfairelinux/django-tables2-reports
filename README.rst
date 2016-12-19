@@ -33,7 +33,7 @@ Requirements
 
 * `django <http://pypi.python.org/pypi/django/>`_ (>=1.8)
 * `django-tables2 <http://pypi.python.org/pypi/django-tables2/>`_ (>=1.2)
-* `xlwt <http://pypi.python.org/pypi/xlwt/>`_ (>=0.7.5), `openpyxl <http://pythonhosted.org/openpyxl/>`_ (>=1.6.2) or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4.1) (These are optionals, to export to xls. Default to xlwt if available)
+* `xlwt <http://pypi.python.org/pypi/xlwt/>`_ (>=0.7.5), `openpyxl <http://pythonhosted.org/openpyxl/>`_ (>=2.2) or `pyExcelerator <http://pypi.python.org/pypi/pyExcelerator/>`_ (>=0.6.4.1) (These are optionals, to export to xls. Default to xlwt if available)
 
 If you use python3, and you want export to xls use this version of the `xlwt (fork) <https://pypi.python.org/pypi/xlwt-future/>`_ (0.8.0) if this `pull request <https://github.com/python-excel/xlwt/pull/32>`_ is not merged still , or use `openpyxl <http://pythonhosted.org/openpyxl/>`_
 
@@ -134,7 +134,7 @@ If you have a lot of tables in your project, you can activate the middleware, an
 
 ::
 
-    # In your settings 
+    # In your settings
 
     MIDDLEWARE_CLASSES = (
 

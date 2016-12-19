@@ -19,7 +19,8 @@ import collections
 import sys
 
 from openpyxl import Workbook
-from openpyxl.cell import get_column_letter
+from openpyxl.styles import Font
+from openpyxl.utils import get_column_letter
 
 from .base import get_content
 
@@ -28,7 +29,7 @@ PY3 = sys.version_info[0] == 3
 
 def convert(response, encoding='utf-8', title_sheet='Sheet 1', content_attr='content', csv_kwargs=None):
     csv_kwargs = csv_kwargs or {}
-    wb = Workbook(encoding=encoding)
+    wb = Workbook()
     ws = wb.get_active_sheet()
     ws.title = title_sheet
     cell_widths = collections.defaultdict(lambda: 0)
@@ -36,12 +37,12 @@ def convert(response, encoding='utf-8', title_sheet='Sheet 1', content_attr='con
     reader = csv.reader(content, **csv_kwargs)
 
     for lno, line in enumerate(reader):
-        write_row(ws, lno, line, cell_widths, encoding=encoding)
+        write_row(ws, lno + 1, line, cell_widths, encoding=encoding)
 
     # Roughly autosize output column widths based on maximum column size
     # and add bold style for the header
     for i, cell_width in cell_widths.items():
-        ws.cell(column=i, row=0).style.font.bold = True
+        ws.cell(column=i, row=1).font = Font(bold=True)
         ws.column_dimensions[get_column_letter(i + 1)].width = cell_width
 
     setattr(response, content_attr, '')
@@ -50,9 +51,10 @@ def convert(response, encoding='utf-8', title_sheet='Sheet 1', content_attr='con
 
 def write_row(ws, lno, cell_text, cell_widths, encoding='utf-8'):
     for cno, cell_text in enumerate(cell_text):
+        column = cno + 1
         if not PY3:
             cell_text = cell_text.decode(encoding)
-        ws.cell(column=cno, row=lno).value = cell_text
-        cell_widths[cno] = max(
-            cell_widths[cno],
+        ws.cell(column=column, row=lno).value = cell_text
+        cell_widths[column] = max(
+            cell_widths[column],
             len(cell_text))
